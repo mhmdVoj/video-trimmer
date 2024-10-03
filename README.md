@@ -1,12 +1,7 @@
-[![](https://jitpack.io/v/jZAIKO/android-video-trimmer.svg)](https://jitpack.io/#jZAIKO/android-video-trimmer)
-[![](https://jitpack.io/v/a914-gowtham/android-video-trimmer.svg)](https://jitpack.io/#a914-gowtham/android-video-trimmer)
 
+# video-trimmer
 
-# Android-video-trimmer
-
-##### Helps to trim local videos with many customizations on Android applications using exoplayer2 and FFmpeg [Demo app](https://github.com/a914-gowtham/android-video-trimmer/releases/tag/1.7.14) 
-
-![](https://github.com/a914-gowtham/Android-video-trimmer/blob/master/demo.gif)
+##### Helps to trim local videos with many customizations on Android applications using exoplayer2 and FFmpeg
 
 ## How to use
 *For a working implementation, please have a look at the Sample Project*
@@ -14,11 +9,11 @@
 1. Include the library as local library project.
 
 + Add the dependency to your app `build.gradle` file
-+ Take a look at light weight version of this library [Android-video-trimmer-litr](https://github.com/a914-gowtham/android-video-trimmer-litr)
++ Take a look at light weight version of this library
  ```gradle
- // replace x.y.z with latest available jitpack version
+ // replace Tag with latest available jitpack version
  dependencies {
-    implementation 'com.github.a914-gowtham:android-video-trimmer:x.y.z'
+    implementation 'com.github.mhmdVoj:video-trimmer:Tag'
  }
  ```
  + Add to project's root `build.gradle` file:
@@ -31,23 +26,7 @@ allprojects {
 ```
 2. Create a global variable for ActivityResultLauncher
 
-```java
-    //Java
-    ActivityResultLauncher<Intent> startForResult = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK &&
-                        result.getData() != null) {
-                    Uri uri = Uri.parse(TrimVideo.getTrimmedVideoPath(result.getData()));
-                    Log.d(TAG, "Trimmed path:: " + uri);
-                   
-                } else
-                    LogMessage.v("videoTrimResultLauncher data is null");
-            });
-```
-
 ```kotlin
-    //Kotlin
     val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { 
     result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK &&
@@ -60,7 +39,7 @@ allprojects {
 ```
 
 3. Add the code for opening Trim Activity.
-```java
+```kotlin
 TrimVideo.activity(String.valueOf(videoUri))
           .setHideSeekBar(true)
           .start(this,startForResult);
@@ -71,7 +50,7 @@ TrimVideo.activity(String.valueOf(videoUri))
 ## Using Different Modes (Ordered By Output Speed):
 
 #### Default Mode:
-```java
+```kotlin
 TrimVideo.activity(String.valueOf(videoUri))
           .setHideSeekBar(true)
           .start(this,startForResult);
@@ -79,7 +58,7 @@ TrimVideo.activity(String.valueOf(videoUri))
    1. Fastest processing, No losses in quality((no compression), will be low accurate(2-3 secs)
 
 #### Accuracy Mode:
-```java
+```kotlin
 TrimVideo.activity(String.valueOf(videoUri))
           .setAccurateCut(true) 
           .setHideSeekBar(true)
@@ -89,7 +68,7 @@ TrimVideo.activity(String.valueOf(videoUri))
 
 
 #### Video Compress Mode:
-```java
+```kotlin
 .setCompressOption(new CompressOption(frameRate,bitRate,width,height))  //pass empty constructor for default compressoption
 ```
   * `FrameRate` Recommeded frameRate is 30
@@ -98,7 +77,7 @@ TrimVideo.activity(String.valueOf(videoUri))
   * `Width` Width of the video output video. 
   * `Height` Height of the video output video.Use `TrimmerUtils.getVideoWidthHeight(this,Uri.parse(videoUri));` method to get the width and height of the video
    1. Video compressing process will take more time and duration will be accurate
-```java
+```kotlin
 TrimVideo.activity(String.valueOf(videoUri))
           .setCompressOption(new CompressOption(30,"1M",460,320)) //pass empty constructor for default compress values
           .setHideSeekBar(true)
@@ -119,20 +98,20 @@ TrimVideo.activity(String.valueOf(videoUri))
 ## Customization
 
 #### Hide Player Seekbar:
-```java
+```kotlin
 .setHideSeekBar(true) //default value is false 
 ```
 
 ### Custom TrimTypes
 
 #### TrimType Default:
-```java
+```kotlin
 TrimVideo.activity(videoUri)
           .start(this,startForResult);
 ```
 
 #### TrimType Fixed Duration:
-```java
+```kotlin
 TrimVideo.activity(videoUri)
           .setTrimType(TrimType.FIXED_DURATION)
           .setFixedDuration(30) //seconds
@@ -140,7 +119,7 @@ TrimVideo.activity(videoUri)
 ```
 
 #### TrimType Minimum Duration:
-```java
+```kotlin
 TrimVideo.activity(videoUri)
           .setTrimType(TrimType.MIN_DURATION)
           .setMinDuration(30) //seconds
@@ -148,7 +127,7 @@ TrimVideo.activity(videoUri)
 ```
 
 #### TrimType Min-Max Duration:
-```java
+```kotlin
 TrimVideo.activity(videoUri)
           .setTrimType(TrimType.MIN_MAX_DURATION)
           .setMinToMax(10, 30)  //seconds
@@ -164,7 +143,7 @@ TrimVideo.activity(videoUri)
 
 ## Compatibility
   
-  * Library - Android Nougat 7.0+ (API 24)
+  * Library - Android Nougat 5.0+ (API 21)
   * Sample - Android Kitkat 4.4+ (API 19)
 
 ## License
